@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 ###
 ###  Gabarit pour l'application de traitement des frequences de mots dans les oeuvres d'auteurs divers
 ###  Le traitement des arguments a ete inclus:
@@ -97,7 +99,7 @@ class Markov:
         buf = deque()
         key = ''
 
-        for word in words:
+        for word in words + deque(['']): # '' représente la fin
             self.add_word(key, word)
 
             # Actualise la liste
@@ -109,9 +111,6 @@ class Markov:
             key = ''
             for item in buf:
                 key += item;
-
-        # Ajouter le dernier mot
-        self.add_word(key, word)
 
     def vomit(self, word_count):
         buf = deque()
@@ -126,6 +125,12 @@ class Markov:
             else:
                 # On fait simplement arrêter si on ne peut plus avancer
                 break
+
+            # Si on trouve la fin, commence un autre paragraphe
+            if word == '':
+                text += '.\n'
+                key = ''
+                continue
 
             # Actualise la liste
             buf.append(word)
@@ -292,22 +297,20 @@ if __name__ == '__main__':
 
         if args.G:
             for (author, chain) in chains.items():
-                # Slip it to the android
+                # Pense, cochon!
                 vomit = chain.vomit(args.G)
-                print('Texte généré pour {}:\n :: Début:\n\t{}\n :: Fin\n'
+                print('Texte généré pour {}:\n :: Début:\n\t{}\n :: Fin'
                         .format(author, vomit))
 
-        print('')
-
         if args.F:
+            print('')
             for (author, chain) in chains.items():
                 word, count = chain.most_frequent(args.F)
                 print('Position {} par fréquence pour {}: {} (répété {} fois)'
                         .format(args.F, author, word, count))
 
-        print('')
-
         if args.f:
+            print('')
             with open(args.f) as f:
                 validation_chain = Markov(args.m)
                 text = f.read()
