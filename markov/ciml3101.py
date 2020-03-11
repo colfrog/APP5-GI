@@ -69,7 +69,6 @@ class Markov:
         self.chain = {}
         self.word_stats = {}
         self.key_stats = {}
-        self.word_pattern = re.compile('^[a-z\u00e0-\u00f60-9]{3,}$')
 
     def add_or_insert(self, table, key, elem):
         if key in table:
@@ -168,7 +167,6 @@ class Markov:
 
     def is_valid_word(self, word):
         return len(word) > 2
-        # return self.word_pattern.search(word) is not None
 
     # Compare two frequency graphs implemented as dictionaries
     def compare(self, d1, d2):
