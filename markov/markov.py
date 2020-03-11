@@ -85,12 +85,12 @@ class Markov:
         self.add_or_insert(self.chain, key, [word])
 
     def most_frequent(self, n):
-        if n <= 0 or n > len(self.word_stats):
+        if n <= 0 or n > len(self.key_stats):
             print('La position passée par -F ({}) est hors du tableau.'
                     .format(n));
             return '', 0
 
-        sorted_words = sorted(self.word_stats.items(),
+        sorted_words = sorted(self.key_stats.items(),
                 key = itemgetter(1), reverse = True)
         return sorted_words[n - 1]
 
@@ -188,10 +188,10 @@ class Markov:
         return math.sqrt(magic)
 
     def compare_words(self, other):
-        return self.compare(self.key_stats, other.key_stats)
+        return self.compare(self.key_stats, other.word_stats)
 
     def compare_ngrams(self, other):
-        return self.compare(self.word_stats, other.word_stats)
+        return self.compare(self.word_stats, other.key_stats)
 
 def read_author(directory, author):
     paths = glob.glob('{}/{}/*.txt'.format(directory, author))
