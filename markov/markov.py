@@ -188,10 +188,10 @@ class Markov:
         return math.sqrt(magic)
 
     def compare_words(self, other):
-        return self.compare(self.key_stats, other.word_stats)
+        return self.compare(self.word_stats, other.word_stats)
 
     def compare_ngrams(self, other):
-        return self.compare(self.word_stats, other.key_stats)
+        return self.compare(self.key_stats, other.key_stats)
 
 def read_author(directory, author):
     paths = glob.glob('{}/{}/*.txt'.format(directory, author))
